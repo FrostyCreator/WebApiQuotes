@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Quotes.Models;
+using Quotes.Models.ReturnedModels;
 
 namespace Quotes.Controllers
 {
@@ -21,9 +22,33 @@ namespace Quotes.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Quote>>> Get()
+        public async Task<ActionResult<IEnumerable<ReturnedQuote>>> Get()
         {
-            return await db.Quotes.ToListAsync();
+            return await db.Quotes.Include(q => q.Theme).Select(q => new ReturnedQuote()
+            { 
+                Id = q.Id,
+                Text = q.Text,
+                Author = q.Author,
+                Theme = q.Theme.Name
+            }).ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Quote>> Get(int id)
+        {
+            Quote quote = await db.Quotes.Include(q => q.Theme).FirstOrDefaultAsync(x => x.Id == id);
+
+            var returnedQuote = new ReturnedQuote()
+            {
+                Id = quote.Id,
+                Text = quote.Text,
+                Author = quote.Author,
+                Theme = quote.Theme.Name
+            };
+
+            if (quote == null)
+                return NotFound();
+            return new ObjectResult(returnedQuote);
         }
     }
 }
