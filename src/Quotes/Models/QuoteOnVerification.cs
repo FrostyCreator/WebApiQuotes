@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Quotes.Models.ReturnedModels
+namespace Quotes.Models
 {
-    public class ReturnedQuote
+    public class QuoteOnVerification
     {
         public int Id { get; set; }
+
+        [Required]
         public string Text { get; set; }
-        public string Author { get; set; }
-        public ReturnedTheme Theme { get; set; }
+
+        [Required]
+        public string Theme { get; set; }
     }
 }

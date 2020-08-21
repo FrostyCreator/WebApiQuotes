@@ -29,25 +29,25 @@ namespace Quotes.Controllers
                 Id = q.Id,
                 Text = q.Text,
                 Author = q.Author,
-                Theme = q.Theme.Name
-            }).ToListAsync();
+                Theme = (ReturnedTheme) q.Theme
+            }).OrderBy(q => q.Id).ToListAsync();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Quote>> Get(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<ReturnedQuote>> Get(int id)
         {
             Quote quote = await db.Quotes.Include(q => q.Theme).FirstOrDefaultAsync(x => x.Id == id);
+
+            if (quote == null)
+                return NotFound();
 
             var returnedQuote = new ReturnedQuote()
             {
                 Id = quote.Id,
                 Text = quote.Text,
                 Author = quote.Author,
-                Theme = quote.Theme.Name
+                Theme = (ReturnedTheme) quote.Theme
             };
-
-            if (quote == null)
-                return NotFound();
             return new ObjectResult(returnedQuote);
         }
     }

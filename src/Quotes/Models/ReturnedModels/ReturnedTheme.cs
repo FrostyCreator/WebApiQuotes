@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace Quotes.Models.ReturnedModels
 {
-    public class ReturnedQuote
+    public class ReturnedTheme
     {
         public int Id { get; set; }
-        public string Text { get; set; }
-        public string Author { get; set; }
-        public ReturnedTheme Theme { get; set; }
+        public string Name { get; set; }
     }
 }

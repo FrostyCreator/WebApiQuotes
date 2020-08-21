@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Quotes.Models.ReturnedModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,5 +15,15 @@ namespace Quotes.Models
         public string Name { get; set; }
 
         public List<Quote> Quotes { get; set; }
+
+
+        public static explicit operator ReturnedTheme(Theme theme)
+        {
+            return new ReturnedTheme()
+            {
+                Id = theme.Id,
+                Name = theme.Name
+            };
+        }
     }
 }
