@@ -8,7 +8,7 @@ GET http://frostycreator.tk/api/quote/{random}/
 ```
 |Name  | Type |Required|Description|
 |------|------|--------|-----------|
-|random| bool |   no   |get 1 random quote with|
+|random| bool |   no   |get 1 random quote|
 ### Return a single quote with a certain id
 ```
 GET http://frostycreator.tk/api/quote/{id}/
