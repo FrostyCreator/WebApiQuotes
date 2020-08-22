@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Quotes.Models
 {
-    interface IQuoteRepository
+    public interface IQuoteRepository
     {
         IQueryable<Quote> Quotes { get; }
         IQueryable<Theme> Themes { get; }

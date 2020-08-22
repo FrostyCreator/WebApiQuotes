@@ -12,6 +12,6 @@ namespace Quotes.Models.ReturnedModels
     }
     public class Errors
     {
-        List<Error> errors;
+        public List<Errors> errors;
     }
 }
