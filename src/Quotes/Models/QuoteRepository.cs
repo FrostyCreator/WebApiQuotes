@@ -21,38 +21,36 @@ namespace Quotes.Models
 
         public IQueryable<ThemeOnVerification> ThemesOnVerification => db.ThemesOnVerification;
 
-        public async Task<bool> AddQuote(QuoteOnVerification quote)
+        public bool AddQuote(QuoteOnVerification quote)
         {
-            if (await CheckingQuoteExistence(quote))
+            if (!CheckingQuoteExistence(quote))
                 return false;
 
             db.QuotesOnVerification.Add(quote);
-            await db.SaveChangesAsync();
+            db.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<bool> AddTheme(ThemeOnVerification theme)
+        public bool AddTheme(ThemeOnVerification theme)
         {
-            if (!await Themes.AnyAsync(t => t.Name.Trim(' ', '.').ToLower() == theme.Name.Trim(' ', '.').ToLower()) &&
-                !await ThemesOnVerification.AnyAsync(t => t.Name.Trim(' ', '.').ToLower() == theme.Name.Trim(' ', '.').ToLower()))
+            if (Themes.Any(t => t.Name.ToLower() == theme.Name))
                 return false;
 
             db.ThemesOnVerification.Add(theme);
-            await db.SaveChangesAsync();
+            db.SaveChangesAsync();
 
             return true;
         }
 
-        private async Task<bool> CheckingQuoteExistence(QuoteOnVerification quote)
+        private bool CheckingQuoteExistence(QuoteOnVerification quote)
         {
-            string text = quote.Text.Trim(' ', '.', '!', '?').Replace(" ", "").ToLower();
+            string text = quote.Text.ToLower();
+            string theme = quote.Theme.ToLower();
 
-            if (await Quotes.AnyAsync(q => q.Text.Trim(' ', '.', '!', '?').Replace(" ", "").ToLower() == text) &&
-                await QuotesOnVerification.AnyAsync(q => q.Text.Trim(' ', '.', '!', '?').Replace(" ", "").ToLower() == text) && 
-                !await Themes.AnyAsync(t => t.Name.Trim(' ', '.').ToLower() == quote.Theme.Trim(' ', '.').ToLower()) && 
-                !await ThemesOnVerification.AnyAsync(t => t.Name.Trim(' ', '.').ToLower() == quote.Theme.Trim(' ', '.').ToLower()))
-                return false;
+            if (Quotes.Any(q => q.Text.ToLower() == text) ||
+                !Themes.Any(t => t.Name.ToLower() == theme))
+                    return false;
 
             return true;
         }

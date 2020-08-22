@@ -12,7 +12,7 @@ namespace Quotes.Models
         IQueryable<QuoteOnVerification> QuotesOnVerification { get; }
         IQueryable<ThemeOnVerification> ThemesOnVerification { get; }
 
-        Task<bool> AddQuote(QuoteOnVerification quote);
-        Task<bool> AddTheme(ThemeOnVerification theme);
+        bool AddQuote(QuoteOnVerification quote);
+        bool AddTheme(ThemeOnVerification theme);
     }
 }

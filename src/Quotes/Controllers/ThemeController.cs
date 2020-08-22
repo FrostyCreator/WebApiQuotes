@@ -14,13 +14,16 @@ namespace Quotes.Controllers
     [Produces("application/json")]
     public class ThemeController : Controller
     {
-
-        private ApplicationContext db;
-        public ThemeController(ApplicationContext context)
+        private IQuoteRepository db;
+        public ThemeController(IQuoteRepository context)
         {
             db = context;
         }
 
+        /// <summary>
+        /// Get all themes
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReturnedTheme>>> Get()
         {
@@ -29,6 +32,16 @@ namespace Quotes.Controllers
                 Id = t.Id,
                 Name = t.Name
             }).ToListAsync();
+        }
+
+
+        [HttpPost]
+        public ActionResult AddTheme(ThemeOnVerification theme)
+        {
+            if (db.AddTheme(theme))
+                return new ObjectResult("The quote was added to the verification list");
+            else
+                return new ObjectResult(new Error() { Code = 400, Message = "The quote already exists or the theme doesn't exist" });
         }
     }
 }
