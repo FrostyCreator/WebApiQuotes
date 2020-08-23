@@ -10,7 +10,7 @@ namespace Quotes.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The theme name is missing")]
         public string Name { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Quotes.Infrastructure;
 using Quotes.Models;
 
@@ -33,6 +36,26 @@ namespace Quotes
             services.AddTransient<IQuoteRepository, QuoteRepository>();
 
             services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Quote API",
+                    Description = "API for getting quotes.",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Salimov Ruslan",
+                        Email = "salimow.r2015@yandex.ru",
+                        Url = new Uri("mailto:salimow.r2015@yandex.ru?subject=QuoteAPI"),
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
 
@@ -49,11 +72,16 @@ namespace Quotes
 
             app.UseAuthorization();
 
+            app.UseSwagger();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Quote API V1");
+            });
             SeedData.EnsurePopulated(app);
         }
     }

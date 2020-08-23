@@ -23,7 +23,6 @@ namespace Quotes.Controllers
         /// <summary>
         /// Get all themes
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ReturnedTheme>>> Get()
         {
@@ -36,12 +35,12 @@ namespace Quotes.Controllers
 
 
         [HttpPost]
-        public ActionResult AddTheme(ThemeOnVerification theme)
+        public ActionResult AddTheme([FromBody]  ThemeOnVerification theme)
         {
             if (db.AddTheme(theme))
-                return new ObjectResult("The quote was added to the verification list");
+                return new ObjectResult("The theme was added to the verification list");
             else
-                return new ObjectResult(new Error() { Code = 400, Message = "The quote already exists or the theme doesn't exist" });
+                return new ObjectResult(new Error() { Code = 400, Message = "The theme already exists" });
         }
     }
 }

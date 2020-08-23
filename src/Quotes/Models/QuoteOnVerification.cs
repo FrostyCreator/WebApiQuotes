@@ -10,10 +10,10 @@ namespace Quotes.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "The quote text is missing")]
         public string Text { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Missing theme")]
         public string Theme { get; set; }
     }
 }
