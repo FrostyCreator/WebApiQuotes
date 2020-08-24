@@ -44,12 +44,6 @@ namespace Quotes
                     Version = "v1",
                     Title = "Quote API",
                     Description = "API for getting quotes.",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Salimov Ruslan",
-                        Email = "salimow.r2015@yandex.ru",
-                        Url = new Uri("mailto:salimow.r2015@yandex.ru?subject=QuoteAPI"),
-                    }
                 });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
