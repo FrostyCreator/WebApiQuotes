@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\QuotesApi.Data.Models\QuotesApi.Data.Models.csproj" />
+      <ProjectReference Include="..\QuotesApi.Data\QuotesApi.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.2" />
+    </ItemGroup>
+
+</Project>
