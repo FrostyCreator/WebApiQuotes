@@ -1,33 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using QuotesApi.Data.Configurations;
 using QuotesApi.Data.Models.Models;
 
 namespace QuotesApi.Data.Context
 {
-    public class MainContext : DbContext
+    public sealed class MainContext : DbContext
     {
-        public DbSet<Quote> Quotes { get; set; }
-        public DbSet<Subject> Subjects { get; set; }
-
-        public MainContext()
+        public MainContext(DbContextOptions<MainContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseMySql("server=localhost;UserId=ruslan;Password=12345678;database=Quote;");
-        }
+        public DbSet<Quote> Quotes { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new QuoteConfiguration());
             modelBuilder.ApplyConfiguration(new SubjectConfiguration());
-            modelBuilder.ApplyConfiguration(new QuoteSubjectConfiguration());
         }
     }
 }

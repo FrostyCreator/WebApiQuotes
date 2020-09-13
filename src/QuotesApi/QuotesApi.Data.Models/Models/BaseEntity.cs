@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace QuotesApi.Data.Models.Models
 {
     public class BaseEntity : IEntity
