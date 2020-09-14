@@ -23,5 +23,16 @@ namespace QuotesApi.Data.Repositories
         {
             return db.Subjects.Include(s => s.Quote).FirstOrDefault(s => s.Id == id);
         }
+
+        public override bool Add(Subject subject)
+        {
+            if (!db.Subjects.Any(s => s.Title == subject.Title))
+            {
+                db.Subjects.Add(subject);
+                return true;
+            }
+        
+            return false;
+        }
     }
 }
