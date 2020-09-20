@@ -6,7 +6,7 @@ namespace QuotesApi.Data.Models.Models
     {
         public string Text { get; set; }
         public string Author { get; set; }
-        public uint SubjectId { get; set; }
+        public int SubjectId { get; set; }
         public Subject Subject { get; set; }
 
         public static explicit operator ReturnedQuote(Quote quote)

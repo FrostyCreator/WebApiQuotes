@@ -19,7 +19,7 @@ namespace QuotesApi.Data.Repositories
             return db.Subjects.Include(s => s.Quote);
         }
 
-        public override Subject GetById(uint id)
+        public override Subject GetById(int id)
         {
             return db.Subjects.Include(s => s.Quote).FirstOrDefault(s => s.Id == id);
         }
@@ -28,10 +28,11 @@ namespace QuotesApi.Data.Repositories
         {
             if (!db.Subjects.Any(s => s.Title == subject.Title))
             {
+                subject.Id = GetNextId();
                 db.Subjects.Add(subject);
                 return true;
             }
-        
+
             return false;
         }
     }

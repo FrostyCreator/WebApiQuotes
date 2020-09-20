@@ -10,11 +10,12 @@ namespace QuotesApi.Data.Repositories.Abstract
         void Update(T entity);
         void Delete(T entity);
         void Delete(Expression<Func<T, bool>> predicate);
-        T GetById(uint id);
+        T GetById(int id);
         T Get(Expression<Func<T, bool>> predicate);
         IEnumerable<T> GetAll();
         int Count();
         IEnumerable<T> GetMany(Expression<Func<T, bool>> predicate);
         void Commit();
+        int GetNextId();
     }
 }

@@ -22,8 +22,9 @@ namespace QuotesApi.Data.Repositories
 
         public virtual bool Add(T entity)
         {
+            entity.Id = GetNextId();
             db.Set<T>().Add(entity);
-
+            
             return true;
         }
 
@@ -46,7 +47,7 @@ namespace QuotesApi.Data.Repositories
             foreach (var entity in entitysToRemove) db.Entry(entity).State = EntityState.Deleted;
         }
 
-        public virtual T GetById(uint id)
+        public virtual T GetById(int id)
         {
             return db.Set<T>().FirstOrDefault(x => x.Id == id);
         }
@@ -76,6 +77,11 @@ namespace QuotesApi.Data.Repositories
         public virtual void Commit()
         {
             db.SaveChanges();
+        }
+
+        public int GetNextId()
+        {
+            return db.Set<T>().Max(x => x.Id) + 1;
         }
     }
 }

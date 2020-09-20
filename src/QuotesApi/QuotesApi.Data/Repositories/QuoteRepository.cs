@@ -21,7 +21,7 @@ namespace QuotesApi.Data.Repositories
             return db.Quotes.Include(q => q.Subject);
         }
 
-        public override Quote GetById(uint id)
+        public override Quote GetById(int id)
         {
             return db.Quotes.Include(q => q.Subject).FirstOrDefault(q => q.Id == id);
         }
@@ -38,14 +38,15 @@ namespace QuotesApi.Data.Repositories
 
         public override bool Add(Quote quote)
         {
-            if (db.Subjects.Any(s => s.Title == quote.Subject.Title) &&
+            if (db.Subjects.Any(s => s.Id == quote.SubjectId) &&
                 !db.Quotes.Any(q => q.Text == quote.Text))
             {
+                quote.Id = GetNextId();
                 db.Quotes.Add(quote);
-                
+
                 return true;
             }
-        
+
             return false;
         }
     }
